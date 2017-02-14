@@ -4,4 +4,4 @@
 
 Email: davidvu98@gmail
 
-Simple encryption and decryption using ASCII table
+Simple encryption and decryption using ASCII table in Javascript
