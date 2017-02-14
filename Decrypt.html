@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Simple text Encrypt / Decrypt </title>
+</head>
+<body>
+<textarea id="encode" style="width: 400px; height: 300px"></textarea><br/>
+<span><button onclick="encode()">Encode</button></span><br/>
+
+<span><button onclick="decode()">Decode</button></span><br/>
+
+<span>Seed: <input id="seed"></span>
+<br/>
+
+<br/>
+<div> Simple Encode/Decode by David Vu</div>
+<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+<script>
+
+    function encodeWithoutSeed(){ //generate a random seed then pass it into encodeWithSeed
+        var string = $("#encode").val();
+        if($("#seed").val() == "") {
+            findMax(string, function (max) {
+                var seed = Math.floor(Math.random() * (65535.0 - max));
+                encodeWithSeed(seed,string);
+            });
+        }
+        else
+            encodeWithSeed(parseInt($("#seed").val()),string)
+    }
+
+    function encodeWithSeed(seed,string){
+        $("#seed").val(""+seed);
+        var newString = "";
+        for (var i = 0; i < string.length; i++) {
+            newString += String.fromCharCode(string.charCodeAt(i) + seed);
+            if (i >= string.length - 1) {
+                $("#encode").val("" + newString);
+            }
+        }
+    }
+
+    function findMax(string,callback){
+        var max = 0;
+        for(var i = 0; i < string.length; i++){
+            if(string.charCodeAt(i) > max){
+                max = string.charCodeAt(i);
+            }
+            if(i >= string.length - 1){
+                callback(max);
+            }
+        }
+    }
+
+    function decode(){ //decode using given seed
+        var string = $("#encode").val();
+        var seed = parseInt($("#seed").val());
+        var newString = "";
+        for(var i = 0; i < string.length;i++){
+            newString += String.fromCharCode(string.charCodeAt(i) - seed);
+            if(i >= string.length - 1){
+                $("#encode").val(""+newString);
+            }
+
+        }
+
+    }
+
+
+//    function shuffleArray(array,callback) { //tao seed :D
+//        for (var i = array.length - 1; i > 0; i--) {
+//            var j = Math.floor(Math.random() * (i + 1));
+//            var temp = array[i];
+//            array[i] = array[j];
+//            array[j] = temp;
+//            if(i <= 1){
+//                callback(array);
+//            }
+//        }
+//
+//    }
+
+
+
+</script>
+
+
+</body>
+</html>
